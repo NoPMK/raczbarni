@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Lora:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply font-sans antialiased text-base-content bg-base-100;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+  .pill {
+    @apply inline-flex items-center rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-sm font-medium backdrop-blur-sm;
+  }
+  .lift-card {
+    @apply transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl;
+  }
+  /* Light, off-white card surface that sits on the dark background */
+  .surface {
+    @apply bg-[#edefe9] text-slate-800 border border-black/5;
+  }
+  .surface-heading {
+    @apply text-slate-900;
+  }
+  .surface-body {
+    @apply text-slate-600;
+  }
+  .surface-muted {
+    @apply text-slate-500;
+  }
+  /* Darker forest green for accents placed on light surfaces */
+  .ink-green {
+    @apply text-[#1b5e20];
+  }
+  /* Divider label: green on the sides, white in the middle */
+  .divider-text {
+    background-image: linear-gradient(
+      90deg,
+      #228b22 0%,
+      #56b85a 30%,
+      #ffffff 50%,
+      #56b85a 70%,
+      #228b22 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Leaflet sizing safety */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  border-radius: 1.25rem;
+  z-index: 0;
+}
