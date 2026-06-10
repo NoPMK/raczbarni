@@ -1,0 +1,47 @@
+---
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<div class="flex items-center justify-center gap-[1.06rem] sm:gap-[1.49rem]" data-aos="fade-up">
+
+  <!--
+    LEFT: troubled mind — uses the provided PNG, flipped to face RIGHT.
+    brightness(0) normalises to pure black first, then the chain
+    tints it to the warm bronze #9A7B4F.
+  -->
+  <img
+    src="/pngegg.png"
+    alt=""
+    aria-hidden="true"
+    class="h-6 w-6 shrink-0 sm:h-8 sm:w-8"
+    style="transform: scaleX(-1); filter: brightness(0) invert(50%) sepia(30%) saturate(600%) hue-rotate(15deg) brightness(88%);"
+  />
+
+  <span class="h-px w-[3.4rem] shrink-0 bg-gradient-to-r from-transparent to-[#9A7B4F] sm:w-[7.65rem]"
+  ></span>
+
+  <span
+    class="shrink-0 font-display text-[1.09rem] font-semibold uppercase tracking-[0.255em] text-[#9A7B4F] sm:text-[1.36rem]"
+  >
+    {label}
+  </span>
+
+  <span class="h-px w-[3.4rem] shrink-0 bg-gradient-to-l from-transparent to-[#9A7B4F] sm:w-[7.65rem]"
+  ></span>
+
+  <!--
+    RIGHT: positive / sunny mind — uses the provided PNG, flipped to face LEFT.
+    The original faces right, so scaleX(-1) mirrors it toward the text.
+  -->
+  <img
+    src="/positive-thinking_14785672.png"
+    alt=""
+    aria-hidden="true"
+    class="h-[1.85rem] w-[1.85rem] shrink-0 sm:h-[2.5rem] sm:w-[2.5rem]"
+    style="transform: scaleX(-1); filter: brightness(0) invert(50%) sepia(30%) saturate(600%) hue-rotate(15deg) brightness(88%);"
+  />
+
+</div>

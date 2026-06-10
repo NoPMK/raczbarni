@@ -1,0 +1,208 @@
+---
+import { site } from "../data/site";
+import Map from "./Map.astro";
+import SectionDivider from "./SectionDivider.astro";
+---
+
+<section id="kapcsolat" class="relative isolate bg-base-100 py-24">
+  <div class="section-shell">
+    <div class="mx-auto max-w-2xl text-center">
+      <SectionDivider label="Kapcsolat" />
+      <h2 class="mt-4 text-4xl font-semibold sm:text-5xl" data-aos="fade-up">
+        {site.contact.heading}
+      </h2>
+    </div>
+
+    <div class="mt-14 grid gap-8 lg:grid-cols-2">
+      <div class="relative z-0" data-aos="fade-up">
+        <Map />
+      </div>
+
+      <form
+        id="contact-form"
+        novalidate
+        class="surface relative z-10 flex flex-col gap-4 rounded-box p-7 shadow-md sm:p-9"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="form-control w-full">
+            <span class="surface-heading mb-1.5 font-medium">Név</span>
+            <input
+              name="name"
+              type="text"
+              required
+              placeholder="Teljes neved"
+              class="input w-full border border-slate-300 bg-white text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+            />
+          </label>
+          <label class="form-control w-full">
+            <span class="surface-heading mb-1.5 font-medium">Email</span>
+            <input
+              id="email-input"
+              name="email"
+              type="email"
+              required
+              placeholder="te@example.com"
+              aria-describedby="email-error"
+              class="input w-full border border-slate-300 bg-white text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+            />
+            <span
+              id="email-error"
+              class="mt-1 hidden text-xs font-medium text-error"
+            >
+              Adj meg egy érvényes email címet.
+            </span>
+          </label>
+        </div>
+
+        <div class="form-control w-full">
+          <span class="surface-heading mb-1.5 font-medium">Konzultáció típusa</span>
+          <div
+            id="mode-toggle"
+            class="grid grid-cols-2 gap-1 rounded-btn border border-slate-300 bg-slate-100 p-1"
+          >
+            <button
+              type="button"
+              data-mode="Személyes"
+              class="mode-btn rounded-[0.55rem] py-2 text-sm font-medium transition-all duration-200"
+            >
+              Személyes
+            </button>
+            <button
+              type="button"
+              data-mode="Online"
+              class="mode-btn rounded-[0.55rem] py-2 text-sm font-medium transition-all duration-200"
+            >
+              Online
+            </button>
+          </div>
+          <input type="hidden" name="mode" id="mode-input" value="Személyes" />
+        </div>
+
+        <label class="form-control w-full">
+          <span class="surface-heading mb-1.5 font-medium">Üzenet</span>
+          <textarea
+            name="message"
+            required
+            rows="5"
+            placeholder="Miben segíthetek?"
+            class="textarea w-full resize-none border border-slate-300 bg-white text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+          ></textarea>
+        </label>
+
+        <button type="submit" class="btn btn-primary mt-2 w-full rounded-btn">
+          Küldés
+        </button>
+        <p class="surface-muted text-center text-xs">
+          A küldés a levelezőprogramodat nyitja meg.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-neutral text-neutral-content">
+  <div class="section-shell flex flex-col items-center gap-5 py-12 text-center">
+    <a href="#top" class="font-display text-xl font-semibold">{site.name}</a>
+    <p class="text-sm text-neutral-content/70">{site.role}</p>
+
+    <div class="flex flex-col items-center gap-1 text-sm text-neutral-content/80">
+      <span>{site.contact.address}</span>
+      <a href={`mailto:${site.contact.email}`} class="hover:underline">
+        {site.contact.email}
+      </a>
+    </div>
+
+    <div class="flex items-center gap-5">
+      {
+        site.contact.socials.map((s) => (
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm font-medium opacity-80 transition-opacity hover:opacity-100"
+          >
+            {s.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="mt-2 text-xs text-neutral-content/50">
+      © {new Date().getFullYear()} {site.name}. Minden jog fenntartva.
+    </p>
+  </div>
+</footer>
+
+<script is:inline define:vars={{ email: site.contact.email }}>
+  const form = document.getElementById("contact-form");
+  const emailInput = document.getElementById("email-input");
+  const emailError = document.getElementById("email-error");
+  const modeInput = document.getElementById("mode-input");
+  const modeButtons = document.querySelectorAll(".mode-btn");
+
+  const ACTIVE = ["bg-white", "text-[#1b5e20]", "shadow-sm"];
+  const INACTIVE = ["text-slate-500"];
+
+  const setMode = (mode) => {
+    if (modeInput) modeInput.value = mode;
+    modeButtons.forEach((btn) => {
+      const active = btn.getAttribute("data-mode") === mode;
+      btn.classList.toggle("bg-white", active);
+      btn.classList.toggle("text-[#1b5e20]", active);
+      btn.classList.toggle("shadow-sm", active);
+      btn.classList.toggle("text-slate-500", !active);
+    });
+  };
+
+  modeButtons.forEach((btn) => {
+    btn.addEventListener("click", () =>
+      setMode(btn.getAttribute("data-mode") || "Személyes")
+    );
+  });
+  setMode("Személyes");
+
+  // Lightweight email format check
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isValidEmail = (value) => EMAIL_RE.test(value.trim());
+
+  const setEmailValidity = (valid) => {
+    emailError?.classList.toggle("hidden", valid);
+    emailInput?.classList.toggle("border-error", !valid);
+    emailInput?.classList.toggle("border-slate-300", valid);
+    emailInput?.setAttribute("aria-invalid", String(!valid));
+  };
+
+  emailInput?.addEventListener("input", () => {
+    if (!emailError || emailError.classList.contains("hidden")) return;
+    setEmailValidity(isValidEmail(emailInput.value));
+  });
+
+  emailInput?.addEventListener("blur", () => {
+    if (emailInput.value.trim() === "") return;
+    setEmailValidity(isValidEmail(emailInput.value));
+  });
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get("name") || "");
+    const senderEmail = String(data.get("email") || "");
+    const mode = String(data.get("mode") || "Személyes");
+    const message = String(data.get("message") || "");
+
+    if (!isValidEmail(senderEmail)) {
+      setEmailValidity(false);
+      emailInput?.focus();
+      return;
+    }
+    setEmailValidity(true);
+
+    const subject = encodeURIComponent(`Kapcsolatfelvétel — ${name}`);
+    const body = encodeURIComponent(
+      `Név: ${name}\nEmail: ${senderEmail}\nKonzultáció típusa: ${mode}\n\n${message}`
+    );
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  });
+</script>
