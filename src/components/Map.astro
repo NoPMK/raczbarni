@@ -1,53 +1,16 @@
 ---
-import { site } from "../data/site";
-const { lat, lng, zoom } = site.contact.map;
+
 ---
 
-<div
-  id="map"
-  class="h-72 w-full rounded-box shadow-md lg:h-full lg:min-h-[26rem]"
-  data-lat={lat}
-  data-lng={lng}
-  data-zoom={zoom}
-  data-label={site.contact.address}
->
+<div class="h-72 w-full overflow-hidden rounded-box shadow-md lg:h-full lg:min-h-[26rem]">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2694.162431052917!2d18.987024776835458!3d47.525700593559854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741ded3ef2579fd%3A0x4c1336290c9ec127!2sBudapest%2C%20Pasar%C3%A9ti%20%C3%BAt%20157b%2C%201026!5e0!3m2!1sen!2shu!4v1781620526404!5m2!1sen!2shu"
+    width="100%"
+    height="100%"
+    style="border:0; display:block;"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="Pasaréti út 157/b, Budapest"
+  ></iframe>
 </div>
-
-<script>
-  import L from "leaflet";
-  import "leaflet/dist/leaflet.css";
-  import markerIcon from "leaflet/dist/images/marker-icon.png";
-  import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-  import markerShadow from "leaflet/dist/images/marker-shadow.png";
-
-  const el = document.getElementById("map");
-  if (el) {
-    const lat = Number(el.dataset.lat);
-    const lng = Number(el.dataset.lng);
-    const zoom = Number(el.dataset.zoom);
-    const label = el.dataset.label ?? "";
-
-    const map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], zoom);
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19,
-    }).addTo(map);
-
-    const icon = L.icon({
-      iconUrl: markerIcon.src,
-      iconRetinaUrl: markerIcon2x.src,
-      shadowUrl: markerShadow.src,
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41],
-    });
-
-    L.marker([lat, lng], { icon }).addTo(map).bindPopup(label);
-
-    // Make sure tiles render correctly once laid out
-    setTimeout(() => map.invalidateSize(), 200);
-  }
-</script>
