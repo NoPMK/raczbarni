@@ -140,10 +140,9 @@ export const site = {
 
   contact: {
     heading: "Kérdésed van? Írj nekem.",
-    address: "1023 Budapest, Példa utca 12.",
+    address: "1026 Budapest, Pasaréti út 157/b",
     email: "hello@example.com",
-    // Térkép középpont (Budapest, példa koordináta)
-    map: { lat: 47.5188, lng: 19.0408, zoom: 15 },
+    map: { lat: 47.5257, lng: 18.9870, zoom: 16 },
     socials: [
       { label: "Instagram", href: "https://instagram.com" },
       { label: "LinkedIn", href: "https://linkedin.com" },
